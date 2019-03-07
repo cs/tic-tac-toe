@@ -19,6 +19,16 @@ type Player
     | O
 
 
+nextPlayer : Player -> Player
+nextPlayer player =
+    case player of
+        X ->
+            O
+
+        O ->
+            X
+
+
 type alias Board =
     Array (Maybe Player)
 
@@ -28,11 +38,7 @@ emptyBoard =
     Array.initialize 9 (always Nothing)
 
 
-nextPlayer : Player -> Player
-nextPlayer player =
-    case player of
-        X ->
-            O
+detectWinner : Board -> Maybe Player
+detectWinner board =
 
-        O ->
-            X
+        Nothing

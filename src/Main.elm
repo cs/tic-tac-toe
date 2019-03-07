@@ -34,14 +34,13 @@ update msg ({ actingPlayer, board } as model) =
             ( { model | actingPlayer = X, board = Model.emptyBoard }, Cmd.none )
 
         MakeMoveMsg index ->
-            case Array.get index board of
-                Just Nothing ->
-                    ( { model
-                        | actingPlayer = Model.nextPlayer actingPlayer
-                        , board = Array.set index (Just actingPlayer) board
-                      }
-                    , Cmd.none
-                    )
+            if Array.get index board == Just Nothing && Model.detectWinner board == Nothing then
+                ( { model
+                    | actingPlayer = Model.nextPlayer actingPlayer
+                    , board = Array.set index (Just actingPlayer) board
+                  }
+                , Cmd.none
+                )
 
-                _ ->
-                    ( model, Cmd.none )
+            else
+                ( model, Cmd.none )

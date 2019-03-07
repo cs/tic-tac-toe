@@ -8,7 +8,7 @@ import Model as Model exposing (Board, Model, Msg(..), Player(..))
 
 
 view : Model -> List (H.Html Msg)
-view { actingPlayer, board } =
+view ({ actingPlayer, board } as model) =
     let
         viewIf predicate content =
             if predicate then
@@ -26,7 +26,7 @@ view { actingPlayer, board } =
         []
         [ H.styled H.h1 [ C.fontSize (C.px 40) ] [] [ H.text "Tic Tac Toe" ]
         , renderBoard board
-        , renderActingPlayer actingPlayer
+        , renderState model
         , viewIf (board /= Model.emptyBoard) renderRestartButton
         ]
     ]
@@ -70,18 +70,38 @@ renderBoard board =
         (Array.toIndexedList board |> List.map renderBoardCell)
 
 
-renderActingPlayer : Player -> H.Html Msg
-renderActingPlayer player =
+renderState : Model -> H.Html Msg
+renderState { actingPlayer, board } =
+    let
+        showPlayer player =
+            H.styled H.strong
+                [ C.color (playerToColor player) ]
+                []
+                [ H.text <| playerToString player ]
+    in
     H.styled H.div
-        [ C.margin (C.px 16), C.fontSize (C.px 32) ]
-        []
-        [ H.text "Hey "
-        , H.styled H.strong
-            [ C.color (playerToColor player) ]
-            []
-            [ H.text <| playerToString player ]
-        , H.text ", it's your turn!"
+        [ C.margin (C.px 32)
+        , C.fontSize (C.px 32)
+        , C.textAlign C.center
         ]
+        []
+        (case Model.detectWinner board of
+            Just player ->
+                [ H.text "Congrats to "
+                , showPlayer player
+                , H.text ","
+                , H.br [] []
+                , H.text "you have won!"
+                ]
+
+            Nothing ->
+                [ H.text "Hey "
+                , showPlayer actingPlayer
+                , H.text ","
+                , H.br [] []
+                , H.text "it's your turn!"
+                ]
+        )
 
 
 renderRestartButton : H.Html Msg
