@@ -9,27 +9,38 @@ import Model as Model exposing (Board, Model, Msg(..), Player(..))
 
 view : Model -> List (H.Html Msg)
 view { actingPlayer, board } =
-    [ boardBox board, actingPlayerBox actingPlayer, restartGameButton ]
+    [ renderBoard board, renderActingPlayer actingPlayer, renderRestartButton ]
 
 
-boardBox : Board -> H.Html Msg
-boardBox board =
+renderBoard : Board -> H.Html Msg
+renderBoard board =
+    let
+        renderBoardCell ( index, maybePlayer ) =
+            H.div [ E.onClick (MakeMoveMsg index) ]
+                [ case maybePlayer of
+                    Nothing ->
+                        H.text "(empty)"
+
+                    Just player ->
+                        playerToString player |> H.text
+                ]
+    in
     H.styled H.div
         [ C.border3 (C.px 3) C.solid (C.hex "000000") ]
         []
-        (Array.map (\maybePlayer -> H.div [] [ maybePlayer |> Maybe.map playerToString |> Maybe.withDefault "empty" |> H.text ]) board |> Array.toList)
+        (Array.toIndexedList board |> List.map renderBoardCell)
 
 
-actingPlayerBox : Player -> H.Html Msg
-actingPlayerBox player =
+renderActingPlayer : Player -> H.Html Msg
+renderActingPlayer player =
     [ "Hey ", playerToString player, ", it's your turn!" ]
         |> List.map H.text
         |> H.styled H.div [ C.fontSize (C.px 32) ] []
 
 
-restartGameButton : H.Html Msg
-restartGameButton =
-    H.button [ E.onClick RestartGameMsg ] [ H.text "Restart Game" ]
+renderRestartButton : H.Html Msg
+renderRestartButton =
+    H.button [ E.onClick RestartMsg ] [ H.text "Restart Game" ]
 
 
 playerToString : Player -> String

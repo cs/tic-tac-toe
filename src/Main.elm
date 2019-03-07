@@ -1,5 +1,6 @@
 module Main exposing (main)
 
+import Array
 import Browser
 import Html.Styled as H
 import Json.Encode as Encode
@@ -27,7 +28,20 @@ init flags =
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
+update msg ({ actingPlayer, board } as model) =
     case msg of
-        RestartGameMsg ->
-            ( { actingPlayer = X, board = Model.emptyBoard }, Cmd.none )
+        RestartMsg ->
+            ( { model | actingPlayer = X, board = Model.emptyBoard }, Cmd.none )
+
+        MakeMoveMsg index ->
+            case Array.get index board of
+                Just Nothing ->
+                    ( { model
+                        | actingPlayer = Model.nextPlayer actingPlayer
+                        , board = Array.set index (Just actingPlayer) board
+                      }
+                    , Cmd.none
+                    )
+
+                _ ->
+                    ( model, Cmd.none )

@@ -1,4 +1,4 @@
-module Model exposing (Board, Model, Msg(..), Player(..), emptyBoard)
+module Model exposing (Board, Model, Msg(..), Player(..), emptyBoard, nextPlayer)
 
 import Array exposing (Array)
 
@@ -10,7 +10,8 @@ type alias Model =
 
 
 type Msg
-    = RestartGameMsg
+    = RestartMsg
+    | MakeMoveMsg Int
 
 
 type Player
@@ -25,3 +26,13 @@ type alias Board =
 emptyBoard : Board
 emptyBoard =
     Array.initialize 9 (always Nothing)
+
+
+nextPlayer : Player -> Player
+nextPlayer player =
+    case player of
+        X ->
+            O
+
+        O ->
+            X
