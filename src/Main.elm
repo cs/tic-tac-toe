@@ -16,7 +16,7 @@ main =
         , subscriptions = \_ -> Sub.none
         , view =
             \model ->
-                { title = "Tic Tac Toe"
+                { title = "Tic-Tac-Toe"
                 , body = view model |> List.map H.toUnstyled
                 }
         }
