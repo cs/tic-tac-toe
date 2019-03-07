@@ -1,4 +1,4 @@
-module Model exposing (Board, Model, Player(..), emptyBoard, playerToString)
+module Model exposing (Board, Model, Msg(..), Player(..), emptyBoard)
 
 import Array exposing (Array)
 
@@ -9,19 +9,13 @@ type alias Model =
     }
 
 
+type Msg
+    = RestartGameMsg
+
+
 type Player
     = X
     | O
-
-
-playerToString : Player -> String
-playerToString player =
-    case player of
-        X ->
-            "X"
-
-        O ->
-            "O"
 
 
 type alias Board =
