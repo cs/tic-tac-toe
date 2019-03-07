@@ -1,12 +1,24 @@
 module Main exposing (main)
 
+import Array exposing (Array)
 import Browser
 import Html as H
 import Json.Encode as Encode
 
 
+type Player
+    = X
+    | O
+
+
+type alias Board =
+    Array (Maybe Player)
+
+
 type alias Model =
-    {}
+    { actingPlayer : Player
+    , board : Board
+    }
 
 
 type Msg
@@ -25,7 +37,11 @@ main =
 
 init : Encode.Value -> ( Model, Cmd Msg )
 init flags =
-    ( {}, Cmd.none )
+    let
+        emptyBoard =
+            Array.initialize 9 (always Nothing)
+    in
+    ( { actingPlayer = X, board = emptyBoard }, Cmd.none )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -39,5 +55,16 @@ subscriptions model =
 
 
 view : Model -> List (H.Html Msg)
-view model =
-    []
+view { actingPlayer } =
+    [ "Hey ", playerToString actingPlayer, ", it's your turn!" ]
+        |> List.map H.text
+
+
+playerToString : Player -> String
+playerToString player =
+    case player of
+        X ->
+            "X"
+
+        O ->
+            "O"
