@@ -1,0 +1,43 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:8
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run:
+          name: "install dependencies & build"
+          command: |
+            npm install && PATH="$(npm bin):$PATH" elm make src/Main.elm
+            mkdir build && mv index.html build/
+      - persist_to_workspace:
+          root: .
+          paths: ["build"]
+
+  deploy:
+    docker:
+      - image: bugfactory/aws-deploy:latest
+    working_directory: ~/repo
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: "ui: deploying to s3://tic-tac-toe.bugfactory.io/"
+          command: |
+            aws s3 sync /tmp/workspace/build \
+                        s3://tic-tac-toe.bugfactory.io/ \
+                        --delete --region eu-central-1 --acl public-read \
+                        --cache-control 'public, max-age=31536000, no-cache'
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build:
+          requires: []
+      - deploy:
+          requires: [build]
+          filters:
+            branches:
+              only: [master]
