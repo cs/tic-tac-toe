@@ -9,8 +9,7 @@ jobs:
       - run:
           name: "install dependencies & build"
           command: |
-            npm install && PATH="$(npm bin):$PATH" elm make src/Main.elm
-            mkdir build && mv index.html build/
+            npm install && PATH="$(npm bin):$PATH" npm run build
       - persist_to_workspace:
           root: .
           paths: ["build"]

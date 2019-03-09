@@ -1,7 +1,10 @@
 {
   "name": "tic-tac-toe",
-  "scripts": {},
   "private": true,
+  "scripts": {
+    "serve": "webpack-dev-server --history-api-fallback",
+    "build": "webpack --mode=production"
+  },
   "author": {
     "name": "Christoph Schiessl",
     "email": "cs@bugfactory.io",
