@@ -1,10 +1,22 @@
 {
   "name": "tic-tac-toe",
   "scripts": {},
-  "author": "Christoph Schiessl <cs@bugfactory.io>",
+  "private": true,
+  "author": {
+    "name": "Christoph Schiessl",
+    "email": "cs@bugfactory.io",
+    "url": "https://bugfactory.io"
+  },
   "license": "MIT",
+  "homepage": "https://tic-tac-toe.bugfactory.io",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cs/tic-tac-toe.git"
+  },
   "devDependencies": {
     "elm": "^0.19.0-bugfix6",
     "elm-format": "^0.8.1"
   }
+  },
+  "dependencies": {}
 }
