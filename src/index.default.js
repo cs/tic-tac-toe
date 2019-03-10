@@ -1,4 +1,5 @@
-var Main = require('./Main.elm').Elm.Main;
+require('normalize.css')
+var Main = require('./Main.elm').Elm.Main
 
 module.exports = {
   create: function (flags) {

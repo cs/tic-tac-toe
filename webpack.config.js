@@ -1,10 +1,12 @@
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const path = require('path')
 const webpack = require('webpack')
 
-const flags = {};
+const flags = {
+};
 
 module.exports = (env, { mode = 'development', product = 'default' }) => ({
   context: path.join(__dirname, 'src'),
@@ -22,7 +24,8 @@ module.exports = (env, { mode = 'development', product = 'default' }) => ({
       inject: false,
       base: `/${process.env.CIRCLE_SHA1 ? process.env.CIRCLE_SHA1 + '/' : ''}`,
       flags
-    })
+    }),
+    new MiniCssExtractPlugin({ filename: "bundle.css" })
   ],
   module: {
     rules: [{
@@ -31,6 +34,9 @@ module.exports = (env, { mode = 'development', product = 'default' }) => ({
         loader: 'elm-webpack-loader',
         options: { debug: 'development' === mode, optimize: 'production' === mode }
       }
+    }, {
+      test: /\.css$/,
+      use: [MiniCssExtractPlugin.loader, 'css-loader']
     }]
   },
   devServer: {
