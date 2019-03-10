@@ -2,8 +2,9 @@
   "name": "tic-tac-toe",
   "private": true,
   "scripts": {
-    "serve": "webpack-dev-server --product=default --mode=production",
-    "build": "webpack --product=default --mode=production"
+    "serve-default": "webpack-dev-server --product=default --mode=development",
+    "build-all": "npm run build-default",
+    "build-default": "webpack --product=default --mode=production"
   },
   "author": {
     "name": "Christoph Schiessl",
@@ -17,6 +18,7 @@
     "url": "https://github.com/cs/tic-tac-toe.git"
   },
   "devDependencies": {
+    "copy-webpack-plugin": "^5.0.0",
     "elm": "^0.19.0-bugfix6",
     "elm-format": "^0.8.1",
     "elm-webpack-loader": "^5.0.0",

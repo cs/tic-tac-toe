@@ -1,3 +1,4 @@
+const CopyPlugin = require('copy-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const path = require('path')
@@ -9,13 +10,14 @@ module.exports = (env, { mode = 'development', product = 'default' }) => ({
   context: path.join(__dirname, 'src'),
   entry: [`./index.${product}.js`],
   output: {
-    filename: '[hash]/bundle.js',
+    filename: 'bundle.[hash:20].js',
     path: path.join(__dirname, `build/${product}`),
     library: 'Main'
   },
   mode: mode,
   plugins: [
-    new HtmlPlugin({ template: `index.${product}.html.ejs`, inject: false, flags })
+    new HtmlPlugin({ template: `index.${product}.html.ejs`, inject: false, flags }),
+    new CopyPlugin([{ from: 'assets', to: 'assets/[path][name].[hash:20].[ext]' }])
   ],
   module: {
     rules: [{
