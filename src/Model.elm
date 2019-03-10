@@ -9,16 +9,22 @@ module Model exposing
     )
 
 import Array exposing (Array)
+import Browser
+import Browser.Navigation
+import Url exposing (Url)
 
 
 type alias Model =
-    { actingPlayer : Player
+    { key : Browser.Navigation.Key
+    , actingPlayer : Player
     , board : Board
     }
 
 
 type Msg
-    = RestartMsg
+    = UrlRequestMsg Browser.UrlRequest
+    | UrlChangeMsg Url
+    | RestartMsg
     | MakeMoveMsg Int
 
 
