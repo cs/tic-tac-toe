@@ -10,14 +10,19 @@ module.exports = (env, { mode = 'development', product = 'default' }) => ({
   context: path.join(__dirname, 'src'),
   entry: [`./index.${product}.js`],
   output: {
-    filename: 'bundle.[hash:20].js',
+    filename: 'bundle.js',
     path: path.join(__dirname, `build/${product}`),
     library: 'Main'
   },
   mode: mode,
   plugins: [
-    new HtmlPlugin({ template: `index.${product}.html.ejs`, inject: false, flags }),
-    new CopyPlugin([{ from: 'assets', to: 'assets/[path][name].[hash:20].[ext]' }])
+    new CopyPlugin([{ from: 'assets' }]),
+    new HtmlPlugin({
+      template: `index.${product}.html.ejs`,
+      inject: false,
+      base: `/${process.env.CIRCLE_SHA1 ? process.env.CIRCLE_SHA1 + '/' : ''}`,
+      flags
+    })
   ],
   module: {
     rules: [{

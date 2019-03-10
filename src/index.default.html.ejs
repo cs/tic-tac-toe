@@ -1,19 +1,20 @@
 <!doctype html>
 <html lang="en">
-  <% flags = htmlWebpackPlugin.options.flags %>
   <head>
     <meta charset="utf-8"/>
     <meta http-equiv="x-ua-compatible" content="ie=edge"/>
-    <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <title></title>
+    <base href="<%= htmlWebpackPlugin.options.base %>">
+    <link rel="shortcut icon" href="favicon.png" type="image/png"/>
     <% htmlWebpackPlugin.files.css.forEach((file) => { %>
-      <link rel="stylesheet" src="/<%= file %>"/>
+      <link rel="stylesheet" src="<%= file %>"/>
     <% }) %>
   </head>
   <body style="margin: 0;">
     <% htmlWebpackPlugin.files.js.forEach((file) => { %>
-      <script src="/<%= file %>"></script>
+      <script src="<%= file %>"></script>
     <% }) %>
-    <script>window.Main.create(<%= JSON.stringify(flags) %>)</script>
+    <script>window.Main.create(<%= JSON.stringify(htmlWebpackPlugin.options.flags) %>)</script>
   </body>
 </html>

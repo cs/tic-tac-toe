@@ -25,8 +25,13 @@ jobs:
           name: "deploy to S3"
           command: |
             for product_directory in /tmp/workspace/build/*/ ; do
-              aws s3 cp "$product_directory" "s3://$S3_BUCKET_NAME/$(basename $product_directory)/" \
-                        --acl public-read --recursive --cache-control 'public, max-age=31536000, no-cache'
+              product_name="$(basename $product_directory)"
+              aws s3 sync "$product_directory" \
+                          "s3://$S3_BUCKET_NAME/$product_name/current/" \
+                          --acl public-read --delete --cache-control 'public, max-age=31536000, no-cache'
+              aws s3 sync "$product_directory" \
+                          "s3://$S3_BUCKET_NAME/$product_name/$CIRCLE_SHA1/" \
+                          --acl public-read --delete --cache-control 'max-age=31536000'
             done
 
 workflows:
