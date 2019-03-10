@@ -3,18 +3,35 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const path = require('path')
 const webpack = require('webpack')
 
-module.exports = (env, { mode = 'development' }) => ({
+const flags = {};
+
+module.exports = (env, { mode = 'development', product = 'default' }) => ({
   context: path.join(__dirname, 'src'),
-  entry: [`./index.js`],
+  entry: [`./index.${product}.js`],
   output: {
-    filename: 'bundle.js',
-    path: path.join(__dirname, 'build'),
+    filename: '[hash]/bundle.js',
+    path: path.join(__dirname, `build/${product}`),
     library: 'Main'
   },
   mode: mode,
   plugins: [
-    new HtmlPlugin({ template: 'index.html.ejs', inject: false })
+    new HtmlPlugin({ template: `index.${product}.html.ejs`, inject: false, flags })
   ],
+  module: {
+    rules: [{
+      test: /\.elm$/,
+      use: {
+        loader: 'elm-webpack-loader',
+        options: { debug: 'development' === mode, optimize: 'production' === mode }
+      }
+    }]
+  },
+  devServer: {
+    port: 3000,
+    disableHostCheck: true,
+    historyApiFallback: true,
+    overlay: { warnings: true, errors: true }
+  },
   optimization: {
     minimizer: [
       new UglifyJsPlugin({
@@ -23,7 +40,6 @@ module.exports = (env, { mode = 'development' }) => ({
             pure_funcs: [ 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9'
                         , 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9' ],
             pure_getters: true,
-            keep_fargs: false,
             unsafe_comps: true,
             unsafe: true
           },
@@ -31,15 +47,5 @@ module.exports = (env, { mode = 'development' }) => ({
         }
       })
     ]
-  },
-  module: {
-    rules: [{
-      test: /\.elm$/,
-      exclude: [/elm-stuff/, /node_modules/],
-      use: {
-        loader: 'elm-webpack-loader',
-        options: { debug: 'development' === mode, optimize: 'production' === mode }
-      }
-    }]
   }
 })

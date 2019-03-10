@@ -11,13 +11,9 @@ import Model as Model exposing (Board, Model, Msg(..), Player(..))
 view : Model -> List (H.Html Msg)
 view ({ actingPlayer, board } as model) =
     [ H.styled H.div
-        [ C.displayFlex
-        , C.flexDirection C.column
-        , C.alignItems C.center
-        , C.margin (C.px 16)
-        ]
+        [ C.displayFlex, C.flexDirection C.column, C.alignItems C.center ]
         []
-        [ H.styled H.h1 [ C.fontSize (C.px 40) ] [] [ H.text "Tic-Tac-Toe" ]
+        [ H.styled H.h1 [ C.fontSize (C.px 40) ] [] [ H.text "Tic-Tac-Toe written in Elm" ]
         , renderBoard board
         , renderState model
         , if board /= Model.emptyBoard then

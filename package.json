@@ -2,8 +2,8 @@
   "name": "tic-tac-toe",
   "private": true,
   "scripts": {
-    "serve": "webpack-dev-server --history-api-fallback",
-    "build": "webpack --mode=production"
+    "serve": "webpack-dev-server --product=default --mode=production",
+    "build": "webpack --product=default --mode=production"
   },
   "author": {
     "name": "Christoph Schiessl",

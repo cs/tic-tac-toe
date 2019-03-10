@@ -3,13 +3,14 @@ jobs:
   build:
     docker:
       - image: circleci/node:8
-    working_directory: ~/repo
     steps:
       - checkout
       - run:
-          name: "install dependencies & build"
-          command: |
-            npm install && PATH="$(npm bin):$PATH" npm run build
+          name: "install"
+          command: npm install
+      - run:
+          name: "build"
+          command: PATH="$(npm bin):$PATH" npm run build
       - persist_to_workspace:
           root: .
           paths: ["build"]
@@ -17,17 +18,23 @@ jobs:
   deploy:
     docker:
       - image: bugfactory/aws-deploy:latest
-    working_directory: ~/repo
     steps:
       - attach_workspace:
           at: /tmp/workspace
       - run:
-          name: "ui: deploying to s3://tic-tac-toe.bugfactory.io/"
+          name: "deploy to S3"
           command: |
-            aws s3 sync /tmp/workspace/build \
-                        s3://tic-tac-toe.bugfactory.io/ \
-                        --delete --region eu-central-1 --acl public-read \
-                        --cache-control 'public, max-age=31536000, no-cache'
+            for product_directory in /tmp/workspace/build/*/ ; do
+              product_name=$(basename $product_directory)
+              for hash_directory in ${product_directory%*/}*/ ; do
+                aws s3 cp "$hash_directory" \
+                          "s3://$S3_BUCKET_NAME/$product_name/" \
+                          --acl public-read --recursive --cache-control 'max-age=31536000'
+              done
+              aws s3 cp "${product_directory%*/}/index.html" \
+                        "s3://$S3_BUCKET_NAME/$product_name/index.html" \
+                        --acl public-read --cache-control 'public, max-age=31536000, no-cache'
+            done
 
 workflows:
   version: 2

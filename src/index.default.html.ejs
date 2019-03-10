@@ -3,11 +3,11 @@
   <head>
     <meta charset="utf-8"/>
     <meta http-equiv="x-ua-compatible" content="ie=edge"/>
-    <title>Tic-Tac-Toe</title>
+    <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
   </head>
-  <body>
-    <script src="/<%= htmlWebpackPlugin.files.js[0] %>"></script>
-    <script>window.Main.init()</script>
+  <body style="margin: 0;">
+    <% htmlWebpackPlugin.files.js.forEach((file) => { %><script src="/<%= file %>"></script><% }) %>
+    <script>window.Main.create(<%= JSON.stringify(htmlWebpackPlugin.options.flags) %>)</script>
   </body>
 </html>
