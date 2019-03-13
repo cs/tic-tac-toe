@@ -7,10 +7,10 @@ jobs:
       - checkout
       - run:
           name: "install"
-          command: npm install
+          command: yarn install
       - run:
           name: "build"
-          command: PATH="$(npm bin):$PATH" npm run build-all
+          command: yarn run build-all
       - persist_to_workspace:
           root: .
           paths: ["build"]
