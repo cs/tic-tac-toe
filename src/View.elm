@@ -13,7 +13,7 @@ view ({ actingPlayer, board } as model) =
     [ H.styled H.div
         [ C.displayFlex, C.flexDirection C.column, C.alignItems C.center ]
         []
-        [ H.styled H.h1 [ C.fontSize (C.px 40) ] [] [ H.text "Tic-Tac-Toe written in Elm" ]
+        [ H.styled H.h1 [ C.textAlign C.center ] [] [ H.text "Tic-Tac-Toe written in Elm" ]
         , renderBoard board
         , renderState model
         , if board /= Model.emptyBoard then
@@ -75,7 +75,7 @@ renderBoardCell ( index, player ) =
 renderState : Model -> H.Html Msg
 renderState { actingPlayer, board } =
     H.styled H.div
-        [ C.margin (C.px 32), C.fontSize (C.px 32), C.textAlign C.center ]
+        [ C.margin (C.px 32), C.fontSize (C.px 24), C.textAlign C.center ]
         []
         (case Model.detectWinner board of
             Just player ->
@@ -123,11 +123,8 @@ renderRestartLink =
     H.styled H.div
         [ C.margin (C.px 16) ]
         []
-        [ H.styled H.a
-            [ C.fontSize (C.px 24)
-            , C.color (C.hex "#4c6cff")
-            , C.hover [ C.textDecoration C.underline ]
-            ]
+        [ H.styled H.button
+            [ C.fontSize (C.px 24) ]
             [ E.onClick RestartMsg ]
             [ H.text "Restart Game" ]
         ]
