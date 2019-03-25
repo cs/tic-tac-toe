@@ -1,6 +1,7 @@
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const path = require('path')
 const webpack = require('webpack')
@@ -58,7 +59,8 @@ module.exports = (env, { mode = 'development', product = 'default' }) => ({
           },
           mangle: true
         }
-      })
+      }),
+      new OptimizeCSSAssetsPlugin({})
     ]
   }
 })
