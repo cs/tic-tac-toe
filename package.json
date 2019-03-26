@@ -1,9 +1,7 @@
 {
-  "name": "tic-tac-toe",
   "private": true,
   "scripts": {
     "serve-default": "webpack-dev-server --product=default --mode=development",
-    "build-all": "yarn run build-default",
     "build-default": "webpack --product=default --mode=production"
   },
   "author": {

@@ -10,7 +10,7 @@ jobs:
           command: yarn install
       - run:
           name: "build"
-          command: yarn run build-all
+          command: yarn run build-default
       - persist_to_workspace:
           root: .
           paths: ["build"]

@@ -6,8 +6,14 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const path = require('path')
 const webpack = require('webpack')
 
-const flags = {
-};
+const commonFlags = {
+}
+
+const developmentFlags = Object.assign({}, commonFlags, {
+})
+
+const productionFlags = Object.assign({}, commonFlags, {
+})
 
 module.exports = (env, { mode = 'development', product = 'default' }) => ({
   context: path.join(__dirname, 'src'),
@@ -21,10 +27,10 @@ module.exports = (env, { mode = 'development', product = 'default' }) => ({
   plugins: [
     new CopyPlugin([{ from: 'assets' }]),
     new HtmlPlugin({
-      template: `index.${product}.html.ejs`,
+      template: `index.html.ejs`,
       inject: false,
       base: `/${process.env.CIRCLE_SHA1 ? process.env.CIRCLE_SHA1 + '/' : ''}`,
-      flags
+      flags: mode === 'production' ? productionFlags : developmentFlags
     }),
     new MiniCssExtractPlugin({ filename: "bundle.css" })
   ],
@@ -42,9 +48,9 @@ module.exports = (env, { mode = 'development', product = 'default' }) => ({
   },
   devServer: {
     port: 3000,
-    disableHostCheck: true,
+    allowedHosts: ['.localhost'],
     historyApiFallback: true,
-    overlay: { warnings: true, errors: true }
+    overlay: { warnings: false, errors: true }
   },
   optimization: {
     minimizer: [
