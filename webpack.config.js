@@ -56,12 +56,21 @@ module.exports = (env, { mode = 'development' }) => ({
       use: [MiniCssExtractPlugin.loader, 'css-loader']
     }]
   },
-  // TODO: Figure out how to serve different chunks based on request hostname.
   devServer: {
     port: 3000,
-    index: `index.${defaultChunk}.html`,
     allowedHosts: ['.localhost'],
-    historyApiFallback: true,
+    historyApiFallback: {
+      rewrites: [
+        {
+          to: ({ request }) => {
+            let chunk = defaultChunk
+            let subdomain = request.hostname.match(/^(.*)\.localhost$/)
+            if (subdomain && chunks.includes(subdomain[1])) { chunk = subdomain[1] }
+            return `/index.${chunk}.html`
+          }
+        }
+      ]
+    },
     overlay: { warnings: false, errors: true }
   },
   optimization: {
