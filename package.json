@@ -1,8 +1,8 @@
 {
   "private": true,
   "scripts": {
-    "serve-default": "webpack-dev-server --product=default --mode=development",
-    "build-default": "webpack --product=default --mode=production"
+    "serve": "webpack-dev-server --mode=development",
+    "build": "webpack --mode=production"
   },
   "author": {
     "name": "Christoph Schiessl",
@@ -21,6 +21,7 @@
     "elm": "^0.19.0-bugfix6",
     "elm-format": "^0.8.1",
     "elm-webpack-loader": "^5.0.0",
+    "glob": "^7.1.3",
     "html-webpack-plugin": "^3.2.0",
     "mini-css-extract-plugin": "^0.5.0",
     "normalize.css": "^8.0.1",

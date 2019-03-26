@@ -3,6 +3,7 @@ const HtmlPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const glob = require("glob")
 const path = require('path')
 const webpack = require('webpack')
 
@@ -15,24 +16,33 @@ const developmentFlags = Object.assign({}, commonFlags, {
 const productionFlags = Object.assign({}, commonFlags, {
 })
 
-module.exports = (env, { mode = 'development', product = 'default' }) => ({
-  context: path.join(__dirname, 'src'),
-  entry: [`./index.${product}.js`],
+const context = path.join(__dirname, 'src')
+const chunks = glob.sync('index.*.js', { cwd: context })
+                   .map(filename => filename.match(/^index\.(.*)\.js$/)[1])
+const defaultChunk = chunks.includes('default') ? 'default' : chunks[0];
+
+module.exports = (env, { mode = 'development' }) => ({
+  context,
+  entry: Object.assign(...chunks.map(chunk => ({ [chunk]: `./index.${chunk}.js` }))),
   output: {
-    filename: 'bundle.js',
-    path: path.join(__dirname, `build/${product}`),
+    filename: 'bundle.[name].js',
+    path: path.join(__dirname, 'build'),
     library: 'Main'
   },
   mode: mode,
   plugins: [
     new CopyPlugin([{ from: 'assets' }]),
-    new HtmlPlugin({
-      template: `index.html.ejs`,
-      inject: false,
-      base: `/${process.env.CIRCLE_SHA1 ? process.env.CIRCLE_SHA1 + '/' : ''}`,
-      flags: mode === 'production' ? productionFlags : developmentFlags
-    }),
-    new MiniCssExtractPlugin({ filename: "bundle.css" })
+    ...chunks.map(chunk =>
+      new HtmlPlugin({
+        template: 'index.html.ejs',
+        filename: `index.${chunk}.html`,
+        chunks: [chunk],
+        inject: false,
+        base: `/${process.env.CIRCLE_SHA1 ? process.env.CIRCLE_SHA1 + '/' : ''}`,
+        flags: mode === 'production' ? productionFlags : developmentFlags
+      })
+    ),
+    new MiniCssExtractPlugin({ filename: "bundle.[name].css" })
   ],
   module: {
     rules: [{
@@ -46,8 +56,10 @@ module.exports = (env, { mode = 'development', product = 'default' }) => ({
       use: [MiniCssExtractPlugin.loader, 'css-loader']
     }]
   },
+  // TODO: Figure out how to serve different chunks based on request hostname.
   devServer: {
     port: 3000,
+    index: `index.${defaultChunk}.html`,
     allowedHosts: ['.localhost'],
     historyApiFallback: true,
     overlay: { warnings: false, errors: true }
