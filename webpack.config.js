@@ -15,8 +15,7 @@ const developmentFlags = Object.assign({}, commonFlags, {
 })
 
 const productionFlags = Object.assign({}, commonFlags, {
-  googleAnalyticsTrackingId: process.env.GOOGLE_ANALYTICS_TRACKING_ID,
-  base: `/${process.env.GIT_REVISION ? process.env.GIT_REVISION + '/' : ''}`
+  base: `/${process.env.REVISION ? process.env.REVISION + '/' : ''}`
 })
 
 const context = path.join(__dirname, 'src')
