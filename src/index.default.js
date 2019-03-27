@@ -1,4 +1,5 @@
 require('normalize.css')
+require('./stylesheets/fonts.css')
 var Main = require('./Main.elm').Elm.Main
 
 module.exports = {

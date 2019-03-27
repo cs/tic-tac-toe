@@ -31,7 +31,7 @@ module.exports = (env, { mode = 'development' }) => ({
   },
   mode: mode,
   plugins: [
-    new CopyPlugin([{ from: 'assets' }]),
+    new CopyPlugin(['assets']),
     ...chunks.map(chunk =>
       new HtmlPlugin({
         template: 'index.html.ejs',
@@ -53,7 +53,10 @@ module.exports = (env, { mode = 'development' }) => ({
       }
     }, {
       test: /\.css$/,
-      use: [MiniCssExtractPlugin.loader, 'css-loader']
+      use: [
+        MiniCssExtractPlugin.loader,
+        { loader: 'css-loader', options: { url: false } }
+      ]
     }]
   },
   devServer: {
