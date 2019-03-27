@@ -10,7 +10,7 @@ jobs:
           command: yarn install
       - run:
           name: "build"
-          command: yarn run build
+          command: GIT_REVISION=$CIRCLE_SHA1 yarn run build
       - persist_to_workspace:
           root: .
           paths: ["build"]
