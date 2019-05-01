@@ -4,7 +4,7 @@ import Array
 import Artwork
 import Bool.Extra as Bool
 import Css as C
-import Css.Media as Media
+import Css.Global as C
 import Html.Styled as H
 import Html.Styled.Attributes as A
 import Html.Styled.Events as E
@@ -15,7 +15,14 @@ import Svg.Styled.Attributes as SvgA
 
 view : Model -> List (H.Html Msg)
 view model =
-    [ H.div
+    [ C.global
+        [ C.body
+            [ C.overflowX C.hidden
+            , C.overflowY C.scroll
+            , C.backgroundColor (C.hex "#21242b")
+            ]
+        ]
+    , H.div
         [ A.css
             [ C.maxWidth (C.px 512)
             , C.margin2 C.zero C.auto
@@ -39,7 +46,7 @@ viewHeader =
         [ A.css [ C.margin2 (C.px 32) (C.px 16), C.textAlign C.left ] ]
         [ H.h1
             [ A.css [ C.fontSize (C.px 32), C.lineHeight (C.num 1) ] ]
-            [ H.text "Tic-Tac-Toe ", H.br [] [], H.small [] [ H.text "written in Elm" ] ]
+            [ H.text "Tic-Tac-Toe", H.br [] [], H.small [] [ H.text "written in Elm" ] ]
         ]
 
 
@@ -80,8 +87,8 @@ viewCell ( index, player ) =
                 , C.width (C.pct 100)
                 , C.height (C.pct 100)
                 , C.borderRadius (C.pct 25)
-                , C.backgroundColor (C.hex "#333333")
-                , C.hover [ C.backgroundColor (C.hex "#444444") ]
+                , C.backgroundColor (C.hex "#2a2e37")
+                , C.hover [ C.backgroundColor (C.hex "#333843") ]
                 ]
             ]
             [ Maybe.map (viewPlayerIcon [ C.width (C.pct 70), C.height (C.pct 70) ]) player
