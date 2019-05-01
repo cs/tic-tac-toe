@@ -10,7 +10,7 @@ jobs:
           command: yarn install
       - run:
           name: "build"
-          command: REVISION=$CIRCLE_SHA1 yarn run build
+          command: REVISION="$CIRCLE_SHA1-$CIRCLE_WORKFLOW_ID" yarn run build
       - persist_to_workspace:
           root: .
           paths: ["build"]
@@ -28,7 +28,7 @@ jobs:
                         "s3://$S3_BUCKET_NAME/current/" \
                         --acl public-read --delete --cache-control 'public, max-age=31536000, no-cache'
             aws s3 sync "/tmp/workspace/build/" \
-                        "s3://$S3_BUCKET_NAME/$CIRCLE_SHA1/" \
+                        "s3://$S3_BUCKET_NAME/$CIRCLE_SHA1-$CIRCLE_WORKFLOW_ID/" \
                         --acl public-read --delete --cache-control 'max-age=31536000'
 
 workflows:
