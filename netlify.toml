@@ -1,5 +1,5 @@
 [build]
   base = ""
   publish = "build/"
-  command = "yarn install && yarn build"
+  command = "yarn install && yarn build && cp _redirects build"
   functions = "_functions/"
