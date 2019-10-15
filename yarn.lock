@@ -1625,6 +1625,11 @@ elm-webpack-loader@^6.0.0:
     node-elm-compiler "^5.0.0"
     yargs "^6.5.0"
 
+elm@^0.19.0-no-deps:
+  version "0.19.0-no-deps"
+  resolved "https://registry.yarnpkg.com/elm/-/elm-0.19.0-no-deps.tgz#4754b658c424771823ee91bd5bf6387647954add"
+  integrity sha512-tOlSeo5Bt0Rkrt/aBjL+/a+TmAFdfeqjrOlThrhgKOoGeHt1hU7/hJ+HFMlHiODf09AQh7Anl64o7V6thzmRHw==
+
 emoji-regex@^7.0.1:
   version "7.0.3"
   resolved "https://registry.yarnpkg.com/emoji-regex/-/emoji-regex-7.0.3.tgz#933a04052860c85e83c122479c4748a8e4c72156"
@@ -5285,9 +5290,9 @@ terser-webpack-plugin@^1.4.1:
     worker-farm "^1.7.0"
 
 terser@^4.1.2:
-  version "4.3.8"
-  resolved "https://registry.yarnpkg.com/terser/-/terser-4.3.8.tgz#707f05f3f4c1c70c840e626addfdb1c158a17136"
-  integrity sha512-otmIRlRVmLChAWsnSFNO0Bfk6YySuBp6G9qrHiJwlLDd4mxe2ta4sjI7TzIR+W1nBMjilzrMcPOz9pSusgx3hQ==
+  version "4.3.9"
+  resolved "https://registry.yarnpkg.com/terser/-/terser-4.3.9.tgz#e4be37f80553d02645668727777687dad26bbca8"
+  integrity sha512-NFGMpHjlzmyOtPL+fDw3G7+6Ueh/sz4mkaUYa4lJCxOPTNzd0Uj0aZJOmsDYoSQyfuVoWDMSWTPU3huyOm2zdA==
   dependencies:
     commander "^2.20.0"
     source-map "~0.6.1"
