@@ -1,0 +1,5 @@
+# Redirect default Netlify subdomain to primary domain
+https://bugfactory.netlify.com/* https://tic-tac-toe.bugfactory.io/:splat 301!
+
+# History Fallback
+/* /index.default.html 200

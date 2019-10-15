@@ -1,0 +1,5 @@
+[build]
+  base = ""
+  publish = "build/"
+  command = "yarn install && yarn build"
+  functions = "_functions/"
