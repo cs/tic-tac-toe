@@ -172,8 +172,8 @@ viewDescription =
             ]
         , H.ol []
             [ H.li [] [ H.text """Greatly reduced surface area for bugs, due to
-                                  being statically typed. Almost no more runtime
-                                  errors and crashes.""" ]
+                                  being statically typed. No more runtime errors
+                                  and crashes.""" ]
             , H.li [] [ H.text """Clean and well-defined architecture, allowing
                                   complex web applications to scale well and to
                                   be refactored easily.""" ]
@@ -189,11 +189,11 @@ viewDescription =
             [ H.text "The code for this page is "
             , H.a
                 [ A.css styleLink, A.href "https://github.com/cs/tic-tac-toe" ]
-                [ H.text "available over on GitHub" ]
+                [ H.text "available on GitHub" ]
             , H.text ". Feel free to check it out if you are curious and don't hestitate "
             , H.a
                 [ A.css styleLink, A.href "mailto:cs@bugfactory.io" ]
-                [ H.text "to approach us if you have any questions" ]
+                [ H.text "to approach me if you have any questions" ]
             , H.text "."
             ]
         ]
